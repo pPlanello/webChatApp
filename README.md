@@ -1,3 +1,3 @@
 # Chat Web App
 
-![alt text](http://url/to/img.png)
+![alt web view](https://github.com/pPlanello/webChatApp/blob/master/webView.png)
