@@ -13,15 +13,16 @@ class ChatMessages {
     }
 
     get last10Messages() {
-        return this.messages.splice(0, 10);
+        this.messages = this.messages.splice(0, 10);
+        return this.messages;
     }
 
     get usersList() {
-        return Object.values( this.users);
+        return Object.values( this.users );
     }
 
     sendMessage(uid, name, message) {
-        this.messages.unshift(
+        this.messages.push(
             new Message(uid, name, message)
         );
     }

@@ -42,14 +42,18 @@
                         <h3>Send message</h3>
                         <hr>
                         <input type="text" id="textUid" class="form-control mb-2" placeholder="uid" autocomplete="off">
-                        <input type="text" id="textMessage" class="form-control mb-2" placeholder="message" autocomplete="off">                    
+                        <input type="text" id="textMessage" class="form-control mb-2" placeholder="message" autocomplete="off">
+                        
+                        <div style="text-align: right;">
+                            <button id="buttonSendMessage" class="btn btn-primary">Send Message</button>
+                        </div>
                     </div>
                     
                     <!-- Chat -->
                     <div class="col-sm-5">
                         <h3>Chat</h3>
                         <hr>
-                        <ul id="listMessages" style="background-color: #D1D1D1; border-radius: 10px;"></ul>
+                        <div id="listMessages" style="background-color: #E1DDDD; border: double; border-color: black; border-radius: 10px; display: grid; padding: 5px;"></div>
                     </div>
                 </div>                
             </div>

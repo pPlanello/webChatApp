@@ -1,6 +1,6 @@
 {
   "name": "web-chat-app",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Web Chat App",
   "main": "index.js",
   "scripts": {

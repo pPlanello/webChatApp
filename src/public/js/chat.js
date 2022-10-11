@@ -4,8 +4,13 @@ const textUid = document.getElementById('textUid');
 const textMessage = document.getElementById('textMessage');
 const buttonLogout = document.getElementById('buttonLogout');
 const headerUserProfile = document.getElementById('headerUserProfile');
+const buttonSendMessage = document.getElementById('buttonSendMessage');
 
 let user = null;
+
+const socket = io({
+    'extraHeaders': { 'x-token': localStorage.getItem('token')}
+});
 
 const validJWT = async() => {
     const token = localStorage.getItem('token') || '';
@@ -30,9 +35,6 @@ const validJWT = async() => {
 }
 
 const connectSocket = async () => {
-    const socket = io({
-        'extraHeaders': { 'x-token': localStorage.getItem('token')}
-    });
 
     socket.on('connect', () => {
         console.log('Sockets online');
@@ -42,7 +44,34 @@ const connectSocket = async () => {
         console.log('Sockets offline');
     });
 
-    socket.on('recived-messages', () => {
+    socket.on('received-messages', (messages) => {
+        let messagesHTML = '';
+
+        messages.forEach(message => {
+            console.log(message)
+            if (user._id !== message.uid) {
+                messagesHTML += `
+                    <div style="text-align: left;">
+                        <p style="background-color: #99B2DD; border-radius: 5px; margin-right: 20px; margin-left: 5px;">
+                            <span style="margin-left: 5px;" class="text-primary"><b>${message.name}:</b></span>
+                            <span class="fs-6 text-muted">${message.message}</span>
+                        </p>
+                    </div>
+                `;
+            } else {
+                messagesHTML += `
+                    <div style="text-align: right;">
+                        <p style="background-color: #bfbdbd; border-radius: 5px; margin-left: 20px; margin-right: 5px;">
+                            <span style="color: black;"><b>${message.name}:</b></span>
+                            <span style="color: black; margin-right: 5px;" class="fs-6">${message.message}</span>
+                        </p>
+                    </div>
+                `;
+            }
+            
+        });
+
+        listMessages.innerHTML = messagesHTML;
     });
 
     socket.on('active-users', (users) => {
@@ -65,6 +94,14 @@ const connectSocket = async () => {
     socket.on('private-message-user', () => {
     });
 }
+
+
+buttonSendMessage.addEventListener('click', () => {
+    const message = textMessage.value;
+    const uid = textUid.value;
+
+    socket.emit('send-message', {message, uid});
+});
 
 buttonLogout.addEventListener('click', () => {
     if (localStorage.getItem('isGoogleLogin')) {
