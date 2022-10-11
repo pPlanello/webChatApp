@@ -19,15 +19,27 @@ const socketController = async (socket, io) => {
     chatMessages.connectUser(user);
     io.emit('active-users', chatMessages.usersList);
     io.emit('received-messages', chatMessages.last10Messages);
-       
+    
+    // Connect to private room
+    socket.join(user.id); // global, socket.id, user.id
+    
+    // Send message to all
     socket.on('send-message', (payload) => {
         const {message, uid} = payload;
 
-        chatMessages.sendMessage(user.id, user.username, message);
-
-        io.emit('received-messages', chatMessages.last10Messages);
+        if (uid) {
+            // Private message
+            io.to(uid).emit('private-message-user', {from: user.username, message});
+        } else {
+            // Global message
+            chatMessages.sendMessage(user.id, user.username, message);
+            io.emit('received-messages', chatMessages.last10Messages);
+        }
     });
 
+
+
+    // Disconnect
     socket.on('disconnect', () => {
         console.log(`Disconnect client '${user.username}' with socket id = ${socket.id}`);
         io.emit('active-users', chatMessages.usersList);

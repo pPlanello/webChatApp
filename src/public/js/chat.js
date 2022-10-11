@@ -60,7 +60,7 @@ const connectSocket = async () => {
         let messagesHTML = '';
 
         messages.forEach(message => {
-            console.log(message)
+            
             if (user._id !== message.uid) {
                 messagesHTML += `
                     <div style="text-align: left;">
@@ -103,7 +103,8 @@ const connectSocket = async () => {
         listUsers.innerHTML = userHTML;
     });
 
-    socket.on('private-message-user', () => {
+    socket.on('private-message-user', (payload) => {
+        console.log('Private message: ', payload);
     });
 }
 
@@ -113,6 +114,9 @@ buttonSendMessage.addEventListener('click', () => {
     const uid = textUid.value;
 
     socket.emit('send-message', {message, uid});
+
+    textMessage.value = '';
+    textUid.value = '';
 });
 
 buttonLogout.addEventListener('click', () => {
