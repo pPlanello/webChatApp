@@ -1,3 +1,10 @@
+const listMessages = document.getElementById('listMessages');
+const listUsers = document.getElementById('listUsers');
+const textUid = document.getElementById('textUid');
+const textMessage = document.getElementById('textMessage');
+const buttonLogout = document.getElementById('buttonLogout');
+const headerUserProfile = document.getElementById('headerUserProfile');
+
 let user = null;
 
 const validJWT = async() => {
@@ -16,13 +23,32 @@ const validJWT = async() => {
     const {user: userServer, token: tokenServer} = await (await resp).json();
     localStorage.setItem('token', tokenServer);
     user = userServer;
-    console.log(user)
+    console.log(user);
+    headerUserProfile.innerText = user.username;
+    imageProfile.src = user.image || './img/AccountIcon2.png';
     document.title = user.username;
 }
 
 const connectSocket = async () => {
     const socket = io({
         'extraHeaders': { 'x-token': localStorage.getItem('token')}
+    });
+
+    socket.on('connect', () => {
+        console.log('Sockets online');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Sockets offline');
+    });
+
+    socket.on('recived-messages', () => {
+    });
+
+    socket.on('active-users', () => {
+    });
+
+    socket.on('private-message-user', () => {
     });
 }
 
