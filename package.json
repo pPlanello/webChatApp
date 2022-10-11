@@ -1,9 +1,10 @@
 {
   "name": "web-chat-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Web Chat App",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/pPlanello/webChatApp/issues"
   },
-  "homepage": "https://github.com/pPlanello/webChatApp#readme"
+  "homepage": "https://github.com/pPlanello/webChatApp#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "socket.io": "^4.5.2"
+  }
 }
