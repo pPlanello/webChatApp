@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <body class="container">
 
         <div class="row mt-5">
-            <!-- Login -->
+            <!-- Login Google-->
             <div class="col-sm-6">
                 <!-- Sign In -->
                 <h1>Google Sign-In</h1>
@@ -30,46 +30,35 @@
                     data-shape="rectangular"
                     data-logo_alignment="left">
                 </div>
+
+                <div class="alert alert-danger mt-2" id="labelAlertGoogleError">
+                    <span>ERROR</span>
+                </div>
+                
                 <!-- Sign Out -->
-                <button id="google_signout">Signout</button>
+                <button id="google_signout" class="btn btn-primary">Signout</button>
             </div>
 
+            <!-- Login manual -->
             <div class="col-sm-6">
+                <h1>Login manual</h1>
+
+                <hr>
+                
+                <form class="d-grid">
+                    <input type="text" name="email" class="form-control mb-2" placeholder="Email"/>
+                    <input type="text" name="password" class="form-control mb-2" placeholder="Password"/>
+
+                    <div class="alert alert-danger mt-2" id="labelAlertError">
+                        <span>ERROR</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login In</button>
+                </form>
             </div>
         </div>
 
-
-        
-        <script>
-            function handleCredentialResponse(response) {
-
-               const body = {id_token: response.credential};
-
-               fetch('http://localhost:8080/api/auth/google', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(body)
-               })
-                .then(resp => resp.json())
-                .then(resp => {
-                    localStorage.setItem('email', resp.user.email);
-                    location.reload();
-                })
-                .catch(console.warn);
-            }
-
-            const button = document.getElementById('google_signout');
-
-            button.onclick = () => {
-                google.accounts.id.disableAutoSelect();
-                google.accounts.id.revoke(localStorage.getItem('email'), done => {
-                    localStorage.clear();
-                    // reload page
-                    location.reload();
-                })
-            }
-        </script>
-
+        <script src="./js/auth.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
     </body>

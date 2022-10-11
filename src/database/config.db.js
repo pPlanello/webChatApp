@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Role = require('../models/role');
 
 
 const dbConnection = async() => {
@@ -13,6 +14,20 @@ const dbConnection = async() => {
 }
 
 const insertDefaultData = async () => {
+    // Role
+    saveRoleIfExist('ADMIN_ROLE');
+    saveRoleIfExist('USER_ROLE');
+    saveRoleIfExist('SALES_ROLE');
+
+    console.log('Roles default added');
+}
+
+const saveRoleIfExist = async (roleName = '') => {
+    const roleDb = await Role.findOne({role: roleName});
+    if (!roleDb) {
+        const data = new Role({role: roleName});
+        await data.save();
+    }
 }
 
 module.exports = {

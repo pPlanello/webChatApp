@@ -43,6 +43,7 @@ class ServerSocket {
 
     routes() {
         this.app.use('/api/auth', require('../routes/auth.routes'));
+        this.app.use('/api/users', require('../routes/users.routes'));
     }
 
     socketsConfig() {
