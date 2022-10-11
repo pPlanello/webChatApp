@@ -45,7 +45,21 @@ const connectSocket = async () => {
     socket.on('recived-messages', () => {
     });
 
-    socket.on('active-users', () => {
+    socket.on('active-users', (users) => {
+        let userHTML = '';
+
+        users.forEach(user => {
+            userHTML += `
+                <li>
+                    <p>
+                        <h5 class="text-success">${user.username}</h5>
+                        <span class="fs-6 text-muted">${user._id}</span>
+                    </p>
+                </li>
+            `;
+        });
+
+        listUsers.innerHTML = userHTML;
     });
 
     socket.on('private-message-user', () => {
