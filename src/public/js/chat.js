@@ -52,6 +52,25 @@ const connectSocket = async () => {
     });
 }
 
+buttonLogout.addEventListener('click', () => {
+    if (localStorage.getItem('isGoogleLogin')) {
+        google.accounts.id.disableAutoSelect();
+        google.accounts.id.revoke(localStorage.getItem('email'), done => {
+            if (done.error) {
+                console.error(done.error);
+                return;
+            }
+    
+            localStorage.clear();
+            // reload page
+            location.reload();
+        });
+    } else {
+        localStorage.clear();
+        location.reload();
+    }
+});
+
 const main = async () => {
     await validJWT();
     await connectSocket();

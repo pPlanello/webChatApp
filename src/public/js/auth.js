@@ -1,4 +1,3 @@
-const buttonSignOut = document.getElementById('google_signout');
 const labelAlertError = document.getElementById('labelAlertError');
 const labelAlertGoogleError = document.getElementById('labelAlertGoogleError');
 const myForm = document.querySelector('form');
@@ -23,6 +22,7 @@ function handleCredentialResponse(response) {
         labelAlertGoogleError.style.display = 'none';
         location.reload();
         window.location = 'chat.html';
+        localStorage.setItem('isGoogleLogin', true);
         return resp;
      })
      .then(console.log)
@@ -66,20 +66,7 @@ myForm.addEventListener('submit', event => {
         localStorage.setItem('token', resp.token);
         labelAlertError.style.display = 'none';
         window.location = 'chat.html';
+        localStorage.setItem('isGoogleLogin', false);
     })
     .catch(console.warn);
 });
-
-buttonSignOut.onclick = () => {
-    google.accounts.id.disableAutoSelect();
-    google.accounts.id.revoke(localStorage.getItem('email'), done => {
-        if (done.error) {
-            console.error(done.error);
-            return;
-        }
-
-        localStorage.clear();
-        // reload page
-        location.reload();
-    });
- }
