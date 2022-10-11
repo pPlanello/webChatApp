@@ -39,6 +39,6 @@ const validJWT = async (req = request, res = response, next) => {
     }
 }
 
-module.exports = [
+module.exports = {
     validJWT
-]
+}
