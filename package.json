@@ -1,6 +1,6 @@
 {
   "name": "web-chat-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Web Chat App",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mongoose": "^6.6.5",
     "socket.io": "^4.5.2"
   }
 }

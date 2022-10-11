@@ -3,7 +3,8 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 
-const {socketController} = require('../sockets/socket.controller')
+const { socketController } = require('../sockets/socket.controller');
+const { dbConnection } = require('../database/config.db');
 
 class ServerSocket {
 
@@ -14,13 +15,19 @@ class ServerSocket {
         this.httpServer = http.createServer( this.app );
         this.io = new Server(this.httpServer, {
             pingTimeout: 2000
-        }); 
+        });
+
+        this.connectDb();
 
         this.middlewares();
 
         this.routes();
 
         this.socketsConfig();
+    }
+
+    async connectDb() {
+        await dbConnection();
     }
 
     middlewares() {
