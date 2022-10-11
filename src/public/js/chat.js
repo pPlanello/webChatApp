@@ -3,6 +3,7 @@ const listUsers = document.getElementById('listUsers');
 const textUid = document.getElementById('textUid');
 const textMessage = document.getElementById('textMessage');
 const buttonLogout = document.getElementById('buttonLogout');
+const buttonGoogleLogout = document.getElementById('buttonGoogleLogout');
 const headerUserProfile = document.getElementById('headerUserProfile');
 const buttonSendMessage = document.getElementById('buttonSendMessage');
 
@@ -11,6 +12,17 @@ let user = null;
 const socket = io({
     'extraHeaders': { 'x-token': localStorage.getItem('token')}
 });
+
+const isGoogleLogin = localStorage.getItem('isGoogleLogin') === 'true';
+console.log(isGoogleLogin);
+
+if (isGoogleLogin) {
+    buttonLogout.style.display = 'none';
+    buttonGoogleLogout.style.display = '';
+} else {
+    buttonLogout.style.display = '';
+    buttonGoogleLogout.style.display = 'none';
+}
 
 const validJWT = async() => {
     const token = localStorage.getItem('token') || '';
@@ -104,22 +116,23 @@ buttonSendMessage.addEventListener('click', () => {
 });
 
 buttonLogout.addEventListener('click', () => {
-    if (localStorage.getItem('isGoogleLogin')) {
-        google.accounts.id.disableAutoSelect();
-        google.accounts.id.revoke(localStorage.getItem('email'), done => {
-            if (done.error) {
-                console.error(done.error);
-                return;
-            }
-    
-            localStorage.clear();
-            // reload page
-            location.reload();
-        });
-    } else {
+    localStorage.clear();
+    location.reload();
+    window.location = '';
+});
+
+buttonGoogleLogout.addEventListener('click', () => {
+    google.accounts.id.disableAutoSelect();
+    google.accounts.id.revoke(localStorage.getItem('email'), done => {
+        if (done.error) {
+            console.error(done.error);
+            return;
+        }
+
         localStorage.clear();
+        // reload page
         location.reload();
-    }
+    });
 });
 
 const main = async () => {
