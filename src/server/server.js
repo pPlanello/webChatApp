@@ -42,7 +42,7 @@ class ServerSocket {
     }
 
     routes() {
-        this.app.use('/api/examples', require('../routes/examples.routes'));
+        this.app.use('/api/auth', require('../routes/auth.routes'));
     }
 
     socketsConfig() {
